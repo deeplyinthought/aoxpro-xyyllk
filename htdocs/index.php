@@ -1,11 +1,8 @@
 <?php
-define('WWW_ROOT', dirname(__FILE__));
-define('APP_ROOT', dirname(WWW_ROOT));
+require_once(dirname(dirname(__FILE__)) . '/ConfigLoader.php');
+require_once(APP_ROOT . '/lib/saetv2.ex.class.php');
 
 session_start();
-
-require_once(APP_ROOT . '/config/config.php');
-require_once(APP_ROOT . ('/lib/saetv2.ex.class.php'));
 
 //从POST过来的signed_request中提取oauth2信息
 if(!empty($_REQUEST["signed_request"])){
