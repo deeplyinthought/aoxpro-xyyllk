@@ -6,8 +6,8 @@ class My_Db_UserTable extends My_Db_TableAbstract {
 	}
 }
 
-/* testing code */
+/* testing code
 //require_once('../ConfigLoader.php');
 //new My_Db_UserTable();
-/* */
+*/
 

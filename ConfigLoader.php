@@ -10,8 +10,10 @@ function  __autoload($class) {
 	if(strncasecmp($class, CLASS_PREFIX, strlen(CLASS_PREFIX)) === 0) {
 		list($prefix, $dir, $classname) = explode('_', $class);
 		$dir = strtolower($dir);
-		require_once(APP_ROOT . "/$dir/$classname.php");
+		return require_once(APP_ROOT . "/$dir/$classname.php");
 	}
+
+	require_once(APP_ROOT . '/lib/saetv2.ex.class.php');
 }
 
 class ConfigLoader {
