@@ -7,6 +7,30 @@ CREATE TABLE `user` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '用户自增ID',
   `weibo_id` bigint NOT NULL DEFAULT '0' COMMENT '用户微博ID',
   `weibo_name` varchar(64) NOT NULL DEFAULT '微博用户' COMMENT '微博用户',
+  `high_score` bigint NOT NULL DEFAULT '0' COMMENT '用户总得分',
+  `title` smallint NOT NULL DEFAULT '0' COMMENT '用户称号',
+  `login_time` bigint NOT NULL DEFAULT '0' COMMENT '用户上次参与游戏时间',
+  `create_time` bigint NOT NULL DEFAULT '0' COMMENT '用户第一次参与游戏时间',
+  PRIMARY KEY (`id`),
+  KEY `weibo_id_idx` (`weibo_id`),
+  KEY `total_score_idx` (`total_score`),
+  KEY `create_time_idx` (`create_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户信息表'; 
+
+CREATE TABLE `user_status` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '流水ID',
+  `weibo_id` bigint NOT NULL DEFAULT '0' COMMENT '用户微博ID',
+  `score` bigint NOT NULL DEFAULT '0' COMMENT '用户得分',
+  `level` smallint NOT NULL DEFAULT '0' COMMENT '用户当前难度，0-4',
+  `level_time` bigint NOT NULL DEFAULT '0' COMMENT '当时难度进入时间',
+  PRIMARY KEY (`id`),
+  KEY `weibo_id_idx` (`weibo_id`),
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户状态表'; 
+
+CREATE TABLE `user` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '用户自增ID',
+  `weibo_id` bigint NOT NULL DEFAULT '0' COMMENT '用户微博ID',
+  `weibo_name` varchar(64) NOT NULL DEFAULT '微博用户' COMMENT '微博用户',
   `total_score` bigint NOT NULL DEFAULT '0' COMMENT '用户总得分',
   `title` smallint NOT NULL DEFAULT '0' COMMENT '用户称号',
   `level` smallint NOT NULL DEFAULT '0' COMMENT '用户当前难度，0-4',
