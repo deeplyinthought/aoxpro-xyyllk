@@ -13,7 +13,7 @@ CREATE TABLE `user` (
   `create_time` bigint NOT NULL DEFAULT '0' COMMENT '用户第一次参与游戏时间',
   PRIMARY KEY (`id`),
   KEY `weibo_id_idx` (`weibo_id`),
-  KEY `total_score_idx` (`total_score`),
+  KEY `total_high_idx` (`high_score`),
   KEY `create_time_idx` (`create_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户信息表'; 
 
