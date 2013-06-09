@@ -1,6 +1,5 @@
 <?php
 require_once(dirname(dirname(__FILE__)) . '/ConfigLoader.php');
-require_once(APP_ROOT . '/lib/saetv2.ex.class.php');
 
 session_start();
 
@@ -42,6 +41,11 @@ $ms  = $c->home_timeline(); // done
 &nbsp;<input type="submit" />
 </form>
 <?php
+
+$action = new My_Action_Login(array(
+			'user_id' => $_SESSION['oauth2']["user_id"]
+			));
+$action->process();
 
 if( isset($_REQUEST['text']) )
 {
