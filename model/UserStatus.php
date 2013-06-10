@@ -25,5 +25,15 @@ class My_Model_UserStatus {
 			? $res->fetchAll(PDO::FETCH_CLASS)
 			: false;
 	}
+
+	public static function deleteByWeiboId($weiboId) {
+		$res = My_Model_Base::getInstance()->query(
+				'DELETE FROM `user_status` WHERE `weibo_id` = :weibo_id',
+				array(
+					':weibo_id' => $weiboId
+				     )
+				);
+		return $res ? $res->rowCount() : false; 
+	}
 }
 

@@ -12,9 +12,10 @@ class My_Action_Game extends My_Action_Abstract {
 			}
 			$ret = My_Model_User::insertUpdate(
 					$user['id'], 
-					$user['screen_name'],
-					time()
+					$user['name'],
+					$this->getActionTime()
 					);
+			My_Model_UserStatus::deleteByWeiboId($sParams['user_id']);
 			$this->setViewParams(
 					'data', 
 					array('success' => !empty($ret) ? 1 : 0)
@@ -69,6 +70,34 @@ class My_Action_Game extends My_Action_Abstract {
 					'total_score' => !empty($status) ? $status[0]->total_score : '',
 					'bonus' => !empty($bonus) ? 1 : 0,
 					));
+	}
+
+	public function passAction() {
+	}
+
+	public function shareAction() {
+		$sParams = $this->getSession('oauth2');
+		$avatarId = $this->getRequest('avatar_id');
+		$followers = $this->_weiboService->followers_by_id($sParams['user_id'], 0, 200);
+		if(!empty($followers) 
+				&& !empty($followers['users'])) {
+			shuffle($followers['users']);
+		}
+		$flrAr = array();
+		for($i = 0; $i < 3; $i++) {
+			if(isset($followers['users'][$i])) {
+				$follower = $followers['users'][$i];
+				if(empty($follower['name'])) {
+					$follower['name'] = $follower['id'];
+				}
+				$flrAr[] = '@'.$follower['name'];
+			}
+		}
+		$this->_weiboService->upload(
+				ConfigLoader::getInstance()->get('share', 'content') . implode(' ', $flrAr),
+				sprintf("%s/%02d.jpg", ConfigLoader::getInstance()->get('share', 'pic_url'), $avatarId)
+				);
+		$this->setViewParams('data', array('success' => 1));
 	}
 
 	public function indexAction() {}
