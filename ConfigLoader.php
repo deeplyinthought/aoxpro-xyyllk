@@ -6,6 +6,9 @@ define('WB_SKEY' , '2b0732658f04b0c712fa4334aa94cfb1');
 define('CANVAS_PAGE' , 'http://apps.weibo.com/aoxproxyyllk');
 define('CLASS_PREFIX', 'My_');
 
+session_name('usid');
+session_start();
+
 function  __autoload($class) {
 	if(strncasecmp($class, CLASS_PREFIX, strlen(CLASS_PREFIX)) === 0) {
 		list($prefix, $dir, $classname) = explode('_', $class);

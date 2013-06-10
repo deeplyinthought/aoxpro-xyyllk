@@ -5,14 +5,16 @@ abstract class My_Action_Abstract {
 
 	protected $_session = array();
 
-	protected $_response = array();
+	protected $_actionName = 'index';
 
-	protected $_weiboService = null;
+	protected $_actionKey = 'Action';
 
-	public function __construct($weiboService) {
+	protected $_viewParams = '';
+
+	public function __construct() {
 		$this->_request = $_REQUEST;
 		$this->_session = $_SESSION;
-		$this->_weiboService = $weiboService;
+		$this->_server = $_SERVER;
 		$this->_response = array('success' => 0);
 	}
 
@@ -30,24 +32,52 @@ abstract class My_Action_Abstract {
 		return isset($this->_session[$key]) ? $this->_session[$key] : null;
 	}
 
-	public function setResponse($response) {
-		$this->_response = $response;
+	public function setSession($session) {
+		$this->_session = $session;
 		return $this;
 	}
 
-	public function sendData() {
-		$resAr = '';
-		foreach($this->_response as $name => $value) {
-			$resAr[] = "$name=" . urlencode($value);
+	public function getServer($key = null) {
+		if(is_null($key)) {
+			return $this->_server;
 		}
-		echo implode('&', $resAr);
+		return isset($this->_server[$key]) ? $this->_server[$key] : null;
+	}
+
+	public function setViewParams($key, $value) {
+		$this->_viewParams[$key] = $value;
+	}
+
+	public function renderView() {
+		$viewScript = APP_ROOT . "/view/$this->_actionName.php";
+		$content = '';
+		if(file_exists($viewScript)) {
+			ob_start();
+			include $viewScript;
+			$content = ob_get_contents();
+			ob_end_clean();
+		} else {}
+		print $content;
 	}
 
 	public function process() {
-		$actionName = $this->getRequest('action') . 'Action';
-		if(method_exists($this, $actionName)) {
-			$this->$actionName();
-			$this->sendData();
-		}
+		$action = $this->getRequest('action') . $this->_actionKey;
+		$this->_actionName = method_exists($this, $action) 
+			? $this->getRequest('action')
+			: $this->_actionName;	
+
+		$this->_preAction();
+		$this->{$this->_actionName . $this->_actionKey}();
+		$this->_postAction();
+
+		$this->renderView();
 	}
+
+	protected function _exit($msg = '') {
+		die($msg);
+	}
+
+	abstract protected function _preAction();
+
+	abstract protected function _postAction();
 }
