@@ -28,42 +28,11 @@ if (empty($_SESSION['oauth2']["user_id"])) {
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>授权后的页面</title>
 </head>
-
 <body>
-
+<h2>FLASH游戏区域</h2>
 <?php
-$ms  = $c->home_timeline(); // done
-
+$controller = new My_Action_Game($c);
+$controller->process();
 ?>
-<h2>发送新微博</h2>
-<form action="" >
-<input type="text" name="text" style="width:300px" />
-&nbsp;<input type="submit" />
-</form>
-<?php
-
-$action = new My_Action_Login(array(
-			'user_id' => $_SESSION['oauth2']["user_id"]
-			));
-$action->process();
-
-if( isset($_REQUEST['text']) )
-{
-$c->update( $_REQUEST['text'] );
-// 发送微博
-echo "<p>发送完成</p>";
-
-}
-
-?>
-
-<?php if( is_array( $ms['statuses'] ) ): ?>
-<?php foreach( $ms['statuses'] as $item ): ?>
-<div style="padding:10px;margin:5px;border:1px solid #ccc">
-<?=$item['text'];?>
-</div>
-<?php endforeach; ?>
-<?php endif; ?>
-
 </body>
 </html>

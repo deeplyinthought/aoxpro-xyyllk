@@ -8,7 +8,6 @@ CREATE TABLE `user` (
   `weibo_id` bigint NOT NULL DEFAULT '0' COMMENT '用户微博ID',
   `weibo_name` varchar(64) NOT NULL DEFAULT '微博用户' COMMENT '微博用户名',
   `high_score` bigint NOT NULL DEFAULT '0' COMMENT '用户总得分',
-  `title` smallint NOT NULL DEFAULT '0' COMMENT '用户称号',
   `login_time` bigint NOT NULL DEFAULT '0' COMMENT '用户上次参与游戏时间',
   `create_time` bigint NOT NULL DEFAULT '0' COMMENT '用户第一次参与游戏时间',
   PRIMARY KEY (`id`),

@@ -1,23 +1,33 @@
 <?php
 
 abstract class My_Action_Abstract {
-	protected $_params = array();
+	protected $_request = array();
+
+	protected $_session = array();
+
 	protected $_response = array();
 
-	public function __construct(array $params = array()) {
-		$this->setParams($params);
+	protected $_weiboService = null;
+
+	public function __construct($weiboService) {
+		$this->_request = $_REQUEST;
+		$this->_session = $_SESSION;
+		$this->_weiboService = $weiboService;
+		$this->_response = array('success' => 0);
 	}
 
-	public function setParams($params) {
-		$this->_params = $params;
-		return $this;
-	}
-
-	public function getParams($key = null) {
+	public function getRequest($key = null) {
 		if(is_null($key)) {
-			return $this->_params;
+			return $this->_request;
 		}
-		return isset($this->_params[$key]) ? $this->_params[$key] : null;
+		return isset($this->_request[$key]) ? $this->_request[$key] : null;
+	}
+
+	public function getSession($key = null) {
+		if(is_null($key)) {
+			return $this->_session;
+		}
+		return isset($this->_session[$key]) ? $this->_session[$key] : null;
 	}
 
 	public function setResponse($response) {
@@ -34,9 +44,10 @@ abstract class My_Action_Abstract {
 	}
 
 	public function process() {
-		$this->doAction();
-		$this->sendData();
+		$actionName = $this->getRequest('action') . 'Action';
+		if(method_exists($this, $actionName)) {
+			$this->$actionName();
+			$this->sendData();
+		}
 	}
-
-	abstract public function doAction();
 }

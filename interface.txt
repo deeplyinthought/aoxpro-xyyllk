@@ -1,29 +1,29 @@
 [用户登录]
 Request Method: GET
-URL : http://apps.weibo.com/aoxproxyyllk?action=login&_={随机数，防缓存}
+URI : http://{域名}/index.php?action=login&_={随机数，防缓存}
 说明: 用户打开游戏时调用
 返回: success={成功标志, 0 失败;非0, 成功}
 
 [用户信息]
 Request Method: GET
-URL : http://apps.weibo.com/aoxproxyyllk?action=info&_={随机数，防缓存}
-说明: 用户打开游戏时调用
-返回: weibo_name={微博用户名|urlencode}&high_score={历史最高分}&title={用户称号|urlencode}
+URI : http://{域名}/index.php?action=info&_={随机数，防缓存}
+说明: 获取用户信息时调用
+返回: success={成功标志, 0 失败;非0, 成功}&weibo_name={微博用户名|urlencode}&high_score={历史最高分}&title={用户称号|urlencode}
 
 [开始游戏]
 Request Method: GET
-URL : http://apps.weibo.com/aoxproxyyllk?action=play&_={随机数，防缓存}
+URI : http://{域名}/index.php?action=play&_={随机数，防缓存}
 说明: 用户开始一关
-返回: level={难度, 0-4}&bonus={爆奖, 0 未中奖;1 中奖}
+返回: success={成功标志, 0 失败;非0, 成功}&level={难度, 0-4}&bonus={爆奖, 0 未中奖;1 中奖}
 
 [游戏过关]
 Request Method: GET
-URL : http://apps.weibo.com/aoxproxyyllk?action=pass&remain_time={剩余时间, 秒}&_={随机数，防缓存}
+URI : http://{域名}/index.php?action=pass&remain_time={剩余时间, 秒}&_={随机数，防缓存}
 说明: 用户完成一关
-返回: level_score={本关得分}&total_score={本次游戏得分}&rank={排名百分比值}&valid={得分有效,  0 无效;其他有效}
+返回: success={成功标志, 0 失败;非0, 成功}&level_score={本关得分}&total_score={本次游戏得分}&rank={排名百分比值}&valid={得分有效,  0 无效;其他有效}
 
 [用户分享]
 Request Method: GET 
-URL : http://apps.weibo.com/aoxproxyyllk?action=share&avatar_id={用户分享的形象ID}
+URI : http://{域名}/index.php?action=share&avatar_id={用户分享的形象ID}
 说明: 用户选定分享形象
 返回: success={成功标志, 0 失败;非0, 成功}
