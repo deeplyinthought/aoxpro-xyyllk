@@ -24,7 +24,7 @@ CREATE TABLE `user_status` (
   `level` smallint NOT NULL DEFAULT '0' COMMENT '用户当前难度，0-4',
   `level_time` bigint NOT NULL DEFAULT '0' COMMENT '当时难度进入时间',
   PRIMARY KEY (`id`),
-  KEY `weibo_id_idx` (`weibo_id`)
+  UNIQUE KEY `weibo_id_idx` (`weibo_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户状态表'; 
 
 CREATE TABLE `bonus_quota` (

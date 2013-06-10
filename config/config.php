@@ -6,3 +6,8 @@ $gConfig['db'] = array(
 		'user' => 'root',
 		'pass' => 'root',
 		);
+
+$gConfig['game'] = array(
+		'bonus_rate' => 10,
+		'bonus_quota' => 5,
+		);

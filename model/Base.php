@@ -24,6 +24,10 @@ class My_Model_Base {
 			: false;
 	}
 
+	public function getConnection() {
+		return $this->_pdo;
+	}
+
 	public static function getInstance() {
 		if(is_null(self::$_instance)) {
 			self::$_instance = new self();

@@ -11,7 +11,7 @@ class My_Model_User {
 					':create_time' => $timestamp
 				     )
 				);
-		return $res->rowCount() 
+		return !$res || $res->rowCount() 
 			? true
 			: false;
 	}
@@ -23,7 +23,7 @@ class My_Model_User {
 					':weibo_id' => $weiboId
 				     )
 				);
-		return $res->rowCount() 
+		return !$res || $res->rowCount() 
 			? $res->fetchAll(PDO::FETCH_CLASS)
 			: false;
 	}

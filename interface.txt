@@ -14,7 +14,7 @@ URI : http://{域名}/index.php?action=info&_={随机数，防缓存}
 Request Method: GET
 URI : http://{域名}/index.php?action=play&_={随机数，防缓存}
 说明: 用户开始一关
-返回: success={成功标志, 0 失败;非0, 成功}&level={难度, 0-4}&bonus={爆奖, 0 未中奖;1 中奖}
+返回: success={成功标志, 0 失败;非0, 成功}&level={难度, 0-4}&total_score={当前得分}&bonus={爆奖, 0 未中奖;1 中奖}
 
 [游戏过关]
 Request Method: GET

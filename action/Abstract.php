@@ -11,11 +11,13 @@ abstract class My_Action_Abstract {
 
 	protected $_viewParams = '';
 
+	protected $_actionTime = '';
+
 	public function __construct() {
 		$this->_request = $_REQUEST;
 		$this->_session = $_SESSION;
 		$this->_server = $_SERVER;
-		$this->_response = array('success' => 0);
+		$this->_actionTime = time();
 	}
 
 	public function getRequest($key = null) {
@@ -42,6 +44,10 @@ abstract class My_Action_Abstract {
 			return $this->_server;
 		}
 		return isset($this->_server[$key]) ? $this->_server[$key] : null;
+	}
+
+	public function getActionTime() {
+		return $this->_actionTime;
 	}
 
 	public function setViewParams($key, $value) {
