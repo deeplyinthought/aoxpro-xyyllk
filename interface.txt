@@ -1,7 +1,7 @@
 [用户登录]
 Request Method: GET
 URI : http://{域名}/index.php?action=login&_={随机数，防缓存}
-说明: 用户打开游戏时调用
+说明: 用户打开游戏时或者用户通关之后重玩时调用
 返回: success={成功标志, 0 失败;非0, 成功}
 
 [用户信息]
@@ -18,9 +18,9 @@ URI : http://{域名}/index.php?action=play&_={随机数，防缓存}
 
 [游戏过关]
 Request Method: GET
-URI : http://{域名}/index.php?action=pass&remain_time={剩余时间, 秒}&_={随机数，防缓存}
+URI : http://{域名}/index.php?action=pass&rt={剩余时间, 秒，加密？}&_={随机数，防缓存}
 说明: 用户完成一关
-返回: success={成功标志, 0 失败;非0, 成功}&level_score={本关得分}&total_score={本次游戏得分}&rank={排名百分比值}&valid={得分有效,  0 无效;其他有效}
+返回: success={成功标志, 0 失败;非0, 成功}&level_score={本关得分}&total_score={本次游戏得分}&rank={排名百分比值}&level_next={下一关难度, 0-4}
 
 [用户分享]
 Request Method: GET 

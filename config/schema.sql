@@ -19,8 +19,8 @@ CREATE TABLE `user` (
 CREATE TABLE `user_status` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '流水ID',
   `weibo_id` bigint NOT NULL DEFAULT '0' COMMENT '用户微博ID',
-  `level_score` bigint NOT NULL DEFAULT '0' COMMENT '用户当前难度得分',
   `total_score` bigint NOT NULL DEFAULT '0' COMMENT '用户总得分',
+  `status` smallint NOT NULL DEFAULT '0' COMMENT '用户状态， 0 空闲;1 游戏中',
   `level` smallint NOT NULL DEFAULT '0' COMMENT '用户当前难度，0-4',
   `level_time` bigint NOT NULL DEFAULT '0' COMMENT '当时难度进入时间',
   PRIMARY KEY (`id`),
@@ -43,11 +43,11 @@ CREATE TABLE `bonus_user` (
 
 CREATE TABLE `action_log` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '流水ID',
-  `user_id` bigint NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `weibo_id` bigint NOT NULL DEFAULT '0' COMMENT '用户ID',
   `action_name` varchar(16) NOT NULL DEFAULT '' COMMENT '动作名',
   `action_body` text NOT NULL DEFAULT '' COMMENT '动作内容',
   `action_time` bigint NOT NULL DEFAULT '0' COMMENT '动作时间',
   PRIMARY KEY (`id`),
-  KEY `user_id_idx` (`user_id`),
+  KEY `weibo_id_idx` (`weibo_id`),
   KEY `action_time_idx` (`action_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户动作日志';

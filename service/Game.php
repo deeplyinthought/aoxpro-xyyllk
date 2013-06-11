@@ -9,12 +9,21 @@ class My_Service_Game {
 				3 => 480,
 				4 => 640,
 			      );
-		$totalTime = 80;
-		$totalTimeScore = 2500;
+		$maxRt = array(
+				0 => 76,
+				1 => 74,
+				2 => 72,
+				3 => 68,
+				4 => 64,
+			      );
+		$totalTime = ConfigLoader::getInstance()->get('game', 'total_time');
+		$totalTimeScore = ConfigLoader::getInstance()->get('game', 'total_time_score');
+		if(!isset($lvScore[$level])
+				|| $rt >= $maxRt[$level]) {
+			return 0;
+		}
 
-		return isset($lvScore[$level]) 
-			? round($lvScore[$level] + $rt / $totalTime * $totalTimeScore)
-			: 0;
+		return round($lvScore[$level] + $rt / $totalTime * $totalTimeScore);
 	}
 
 	public static function getTitle($score) {
@@ -34,5 +43,27 @@ class My_Service_Game {
 		}
 
 		return $titleList[4];
+	}
+
+	public static function getIP() 
+	{ 
+		if (isset($_SERVER)) { 
+			if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) { 
+				$realip = $_SERVER['HTTP_X_FORWARDED_FOR']; 
+			} elseif (isset($_SERVER['HTTP_CLIENT_IP'])) { 
+				$realip = $_SERVER['HTTP_CLIENT_IP']; 
+			} else { 
+				$realip = $_SERVER['REMOTE_ADDR']; 
+			} 
+		} else { 
+			if (getenv("HTTP_X_FORWARDED_FOR")) { 
+				$realip = getenv( "HTTP_X_FORWARDED_FOR"); 
+			} elseif (getenv("HTTP_CLIENT_IP")) { 
+				$realip = getenv("HTTP_CLIENT_IP"); 
+			} else { 
+				$realip = getenv("REMOTE_ADDR"); 
+			} 
+		} 
+		return $realip; 
 	}
 }

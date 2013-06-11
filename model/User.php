@@ -27,5 +27,16 @@ class My_Model_User {
 			? $res->fetchAll(PDO::FETCH_CLASS)
 			: false;
 	}
+
+	public static function updateUserHighScore($weiboId, $score) {
+		$res = My_Model_Base::getInstance()->query(
+				'UPDATE `user` SET `high_score` = :score WHERE `weibo_id` = :weibo_id AND `high_score` < :score',
+				array(
+					':score' => $score,
+					':weibo_id' => $weiboId
+				     )
+				);
+		return empty($res) ? false : true ;
+	}
 }
 

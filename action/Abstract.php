@@ -50,6 +50,10 @@ abstract class My_Action_Abstract {
 		return $this->_actionTime;
 	}
 
+	public function getActionName() {
+		return $this->_actionName;
+	}
+
 	public function setViewParams($key, $value) {
 		$this->_viewParams[$key] = $value;
 	}
