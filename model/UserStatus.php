@@ -3,8 +3,9 @@
 class My_Model_UserStatus {
 	const STATUS_PLAY = 1;
 	const STATUS_IDLE = 0;
+	const LEVEL_FINISH = -1;
 
-	public static function insertUpdate($weiboId, $timestamp) {
+	public static function startPlay($weiboId, $timestamp) {
 		$res = My_Model_Base::getInstance()->query(
 				'INSERT INTO `user_status` (`weibo_id`, `level_time`) VALUES (:weibo_id, :level_time) ON DUPLICATE KEY UPDATE `weibo_id`=:weibo_id, `level_time` = :level_time, `status` = ' . self::STATUS_PLAY,
 				array(

@@ -38,5 +38,17 @@ class My_Model_User {
 				);
 		return empty($res) ? false : true ;
 	}
+
+	public static function getScoreRank($score) {
+		$res = My_Model_Base::getInstance()->query(
+				'SELECT COUNT(*) as `lower`, (SELECT COUNT(*) FROM `user`) as `total` FROM `user` WHERE `high_score` < :score',
+				array(':score' => $score)
+				);
+		if(empty($res)) {
+			return 0;
+		}
+		$res = $res->fetchAll(PDO::FETCH_CLASS);
+		return intval($res[0]->lower / $res[0]->total * 100);
+	}
 }
 

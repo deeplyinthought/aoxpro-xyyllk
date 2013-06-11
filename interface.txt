@@ -20,7 +20,7 @@ URI : http://{域名}/index.php?action=play&_={随机数，防缓存}
 Request Method: GET
 URI : http://{域名}/index.php?action=pass&rt={剩余时间, 秒，加密？}&_={随机数，防缓存}
 说明: 用户完成一关
-返回: success={成功标志, 0 失败;非0, 成功}&level_score={本关得分}&total_score={本次游戏得分}&rank={排名百分比值}&level_next={下一关难度, 0-4}
+返回: success={成功标志, 0 失败;非0, 成功}&level_score={本关得分}&total_score={本次游戏得分}&rank={排名百分比值}&level_next={下一关难度, 0-4正常游戏, -1时游戏结束, 调login重新开始}
 
 [用户分享]
 Request Method: GET 

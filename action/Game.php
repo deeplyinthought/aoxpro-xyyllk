@@ -57,7 +57,7 @@ class My_Action_Game extends My_Action_Abstract {
 			if(empty($user)) {
 				throw new Exception('get user error');
 			}
-			$ret = My_Model_UserStatus::insertUpdate(
+			$ret = My_Model_UserStatus::startPlay(
 					$sParams['user_id'], 
 					$this->getActionTime()
 					);
@@ -117,11 +117,15 @@ class My_Action_Game extends My_Action_Abstract {
 			}
 			$status[0]->total_score += $score;
 			$status[0]->level += 1;
+			if($status[0]->level > ConfigLoader::getInstance()->get('game', 'max_level')) {
+				$status[0]->level = My_Model_UserStatus::LEVEL_FINISH;
+			}
 			$status[0]->level_time = $this->getActionTime();
 			$status[0]->status = My_Model_UserStatus::STATUS_IDLE;
 			if(!My_Model_UserStatus::updateUserStatus($status[0])) {
 				throw new Exception('update user status error');
 			}
+			$rank = My_Model_User::getScoreRank($status[0]->total_score);
 			if(!My_Model_User::updateUserHighScore($sParams['user_id'], $status[0]->total_score)) {
 				throw new Exception('update user high score error');
 			}
@@ -179,7 +183,7 @@ class My_Action_Game extends My_Action_Abstract {
 				is_null($this->_exception) ? 'done' : $this->_exception->getMessage()
 				);
 		My_Model_ActionLog::logAction(
-				$sParams['user_id'],
+				empty($sParams['user_id']) ? 0 : $sParams['user_id'],
 				$this->getActionName(),
 				$actionBody,
 				$this->getActionTime()

@@ -12,6 +12,7 @@ $gConfig['game'] = array(
 		'bonus_quota' => 5,
 		'total_time' => 80,
 		'total_time_score' => 2500,
+		'max_level' => 4,
 		);
 
 $gConfig['share'] = array(
