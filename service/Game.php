@@ -28,11 +28,11 @@ class My_Service_Game {
 
 	public static function getTitle($score) {
 		$titleList = array(
-				0 => 'title1',
-				1 => 'title2',
-				2 => 'title3',
-				3 => 'title4',
-				4 => 'title5',
+				0 => '金章连连小吉主',
+				1 => '金章连连至尊',
+				2 => '金章连连无敌圣',
+				3 => '通天达地连连王',
+				4 => '迪士尼金章连连摩天塔',
 			      );
 		$scoreList = array(1000, 2000, 3400, 5000);
 
