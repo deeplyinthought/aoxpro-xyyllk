@@ -16,6 +16,6 @@ $gConfig['game'] = array(
 		);
 
 $gConfig['share'] = array(
-		'pic_url' => 'http://42.96.191.163/images',
+		'pic_url' => 'http://disney.aoxpro.com/images',
 		'content' => '这是一条测试微博',
 		);
