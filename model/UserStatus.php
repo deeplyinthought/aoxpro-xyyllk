@@ -7,9 +7,10 @@ class My_Model_UserStatus {
 
 	public static function startPlay($weiboId, $timestamp) {
 		$res = My_Model_Base::getInstance()->query(
-				'INSERT INTO `user_status` (`weibo_id`, `level_time`) VALUES (:weibo_id, :level_time) ON DUPLICATE KEY UPDATE `weibo_id`=:weibo_id, `level_time` = :level_time, `status` = ' . self::STATUS_PLAY,
+				'INSERT INTO `user_status` (`weibo_id`, `status`, `level_time`) VALUES (:weibo_id, :status, :level_time) ON DUPLICATE KEY UPDATE `weibo_id`=:weibo_id, `level_time` = :level_time, `status` = :status',
 				array(
 					':weibo_id' => $weiboId, 
+					':status' => self::STATUS_PLAY,
 					':level_time' => $timestamp
 				     )
 				);

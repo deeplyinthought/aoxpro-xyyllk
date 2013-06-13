@@ -3,9 +3,26 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>授权后的页面</title>
+<script src="http://tjs.sjs.sinajs.cn/t35/apps/opent/js/frames/client.js" language="JavaScript"></script>
+<script> 
+function authLoad(){
+ 
+	App.AuthDialog.show({
+	client_id : '<?=WB_AKEY;?>',    //必选，appkey
+	redirect_uri : '<?=CANVAS_PAGE;?>',     //必选，授权后的回调地址
+	height: 120    //可选，默认距顶端120px
+	});
+}
+</script>
 </head>
 <body>
+<?php if(!$this->_isAuth): ?>
+<script>authLoad()</script>;
+<img src="/images/450x300.jpg" />
+<?php else: ?>
 <h2>FLASH游戏区域</h2>
-<div>flash program</div>
+
+<div>usid:<?php echo $_COOKIE['usid'] ?></div>
+<?php endif; ?>
 </body>
 </html>

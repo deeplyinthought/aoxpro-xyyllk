@@ -8,8 +8,8 @@ $gConfig['db'] = array(
 		);
 
 $gConfig['game'] = array(
-		'bonus_rate' => 10,
-		'bonus_quota' => 5,
+		'bonus_rate' => 5,
+		'bonus_quota' => 3,
 		'total_time' => 80,
 		'total_time_score' => 2500,
 		'max_level' => 4,

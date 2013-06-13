@@ -2,8 +2,12 @@
 
 class My_Action_Game extends My_Action_Abstract {
 	private $_weiboService = null;
+
 	private $_exception = null;
+
 	private $_weiboUser = null;
+
+	protected $_isAuth = false;
 
 	public function loginAction() {
 		$ret = null;
@@ -212,7 +216,9 @@ class My_Action_Game extends My_Action_Abstract {
 	private function _verifyAuth() {
 		$sessOauth = $this->getSession('oauth2');
 		if (empty($sessOauth['user_id'])) {
-			$this->_actionName = 'auth';
+			if($this->_actionName != 'index') {
+				$this->_actionName = 'auth';
+			}
 			return false;
 		} 
 
@@ -226,11 +232,13 @@ class My_Action_Game extends My_Action_Abstract {
 			? $this->_weiboService->show_user_by_id($sessOauth['user_id'])
 			: null;
 		if(empty($this->_weiboUser) || !empty($this->_weiboUser['error'])) {
-			$this->_actionName = 'auth';
+			if($this->_actionName != 'index') {
+				$this->_actionName = 'auth';
+			}
 			return false;
 		}
 
-		return true;
+		return $this->_isAuth = true;
 	}
 
 	private function _verifySign() {
