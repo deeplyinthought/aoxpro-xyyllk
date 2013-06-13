@@ -176,7 +176,7 @@ class My_Action_Game extends My_Action_Abstract {
 		}
 		$this->_weiboService->upload(
 				$content . implode(' ', $flrAr),
-				sprintf("%s/%02d.jpg", ConfigLoader::getInstance()->get('share', 'pic_url'), $avatarId)
+				sprintf(ConfigLoader::getInstance()->get('share', 'pic_url'), $avatarId)
 				);
 		$this->setViewParams('data', array('success' => 1));
 	}
@@ -222,7 +222,9 @@ class My_Action_Game extends My_Action_Abstract {
 				$sessOauth['oauth_token'],
 				''
 				);
-		$this->_weiboUser = $this->_weiboService->show_user_by_id($sessOauth['user_id']);
+		$this->_weiboUser = !empty($this->_weiboService) 
+			? $this->_weiboService->show_user_by_id($sessOauth['user_id'])
+			: null;
 		if(empty($this->_weiboUser) || !empty($this->_weiboUser['error'])) {
 			$this->_actionName = 'auth';
 			return false;
