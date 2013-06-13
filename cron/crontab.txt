@@ -1,1 +1,3 @@
 * * * 0 1 (php $APP_ROOT/cron/updateQuota.php 2>&1 >/dev/null)
+
+* * * * * ($APP_ROOT/cron/check_memcached.sh >/dev/null)

@@ -13,7 +13,7 @@ class My_Model_BonusQuota {
 
 	public static function updateQuota() {
 		$res = My_Model_Base::getInstance()->query(
-				'INSERT INTO `bonus_quota` (`id`, `quota`) VALUES(1, :quota) ON DUPLICATE KEY UPDATE `quota` = `quota` + :quota',
+				'INSERT INTO `bonus_quota` (`id`, `quota`) VALUES(1, :quota) ON DUPLICATE KEY UPDATE `quota` = :quota',
 				array(':quota' => ConfigLoader::getInstance()->get('game', 'bonus_quota'))
 				);
 		return !$res || $res->rowCount()

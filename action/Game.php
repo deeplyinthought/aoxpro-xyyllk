@@ -3,13 +3,14 @@
 class My_Action_Game extends My_Action_Abstract {
 	private $_weiboService = null;
 	private $_exception = null;
+	private $_weiboUser = null;
 
 	public function loginAction() {
 		$ret = null;
 		try {
 			$sParams = $this->getSession('oauth2');
-			$user = $this->_weiboService->show_user_by_id($sParams['user_id']);
-			if(empty($user)) {
+			$user = $this->_weiboUser;
+			if(empty($user) || !empty($user['error'])) {
 				throw new Exception('get user error');
 			}
 			$ret = My_Model_User::insertUpdate(
@@ -163,8 +164,18 @@ class My_Action_Game extends My_Action_Abstract {
 				$flrAr[] = '@'.$follower['name'];
 			}
 		}
+		$status = My_Model_UserStatus::getByWeiboId($sParams['user_id']);
+		if(empty($status)) {
+			$content = ConfigLoader::getInstance()->get('share', 'content_error');
+		} else {
+			$content = sprintf(
+					ConfigLoader::getInstance()->get('share', 'content'),
+					My_Service_Game::getTitle($status[0]->total_score),
+					My_Model_User::getScoreRank($status[0]->total_score)
+					);
+		}
 		$this->_weiboService->upload(
-				ConfigLoader::getInstance()->get('share', 'content') . implode(' ', $flrAr),
+				$content . implode(' ', $flrAr),
 				sprintf("%s/%02d.jpg", ConfigLoader::getInstance()->get('share', 'pic_url'), $avatarId)
 				);
 		$this->setViewParams('data', array('success' => 1));
@@ -173,6 +184,8 @@ class My_Action_Game extends My_Action_Abstract {
 	public function indexAction() {}
 
 	public function authAction() {}
+
+	public function unauthAction() {}
 
 	protected function _postAction() {
 		$sParams = $this->getSession('oauth2');
@@ -191,22 +204,31 @@ class My_Action_Game extends My_Action_Abstract {
 	}
 
 	protected function _preAction() {
-		$this->_verifySign();
-		$this->_verifyAuth();
+		if(!$this->_verifyAuth()) {
+			$this->_verifySign();
+		}
 	}
 
 	private function _verifyAuth() {
 		$sessOauth = $this->getSession('oauth2');
 		if (empty($sessOauth['user_id'])) {
 			$this->_actionName = 'auth';
-		} else {
-			$this->_weiboService = new SaeTClientV2( 
-					WB_AKEY, 
-					WB_SKEY,
-					$sessOauth['oauth_token'],
-					''
-					);
+			return false;
 		} 
+
+		$this->_weiboService = new SaeTClientV2( 
+				WB_AKEY, 
+				WB_SKEY,
+				$sessOauth['oauth_token'],
+				''
+				);
+		$this->_weiboUser = $this->_weiboService->show_user_by_id($sessOauth['user_id']);
+		if(empty($this->_weiboUser) || !empty($this->_weiboUser['error'])) {
+			$this->_actionName = 'auth';
+			return false;
+		}
+
+		return true;
 	}
 
 	private function _verifySign() {
