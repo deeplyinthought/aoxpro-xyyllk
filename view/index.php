@@ -18,9 +18,43 @@ function authLoad(){
 <body>
 <?php if(!$this->_isAuth): ?>
 <script>authLoad()</script>;
-<img src="/images/450x300.jpg" />
+<img src="/images/cover.jpg" />
 <?php else: ?>
-<h2>FLASH游戏区域</h2>
+<div id="flashContent">
+<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="760" height="570" id="LLK" align="middle">
+<param name="movie" value="/swf/game.swf?_=<?=time() ?>" />
+<param name="quality" value="high" />
+<param name="bgcolor" value="#f8c695" />
+<param name="play" value="true" />
+<param name="loop" value="true" />
+<param name="wmode" value="window" />
+<param name="scale" value="showall" />
+<param name="menu" value="true" />
+<param name="devicefont" value="false" />
+<param name="salign" value="" />
+<param name="allowScriptAccess" value="sameDomain" />
+<!--[if !IE]>-->
+<object type="application/x-shockwave-flash" data="/swf/game.swf?_=<?=time() ?>" width="760" height="570">
+<param name="movie" value="/swf/game.swf" />
+<param name="quality" value="high" />
+<param name="bgcolor" value="#f8c695" />
+<param name="play" value="true" />
+<param name="loop" value="true" />
+<param name="wmode" value="window" />
+<param name="scale" value="showall" />
+<param name="menu" value="true" />
+<param name="devicefont" value="false" />
+<param name="salign" value="" />
+<param name="allowScriptAccess" value="sameDomain" />
+<!--<![endif]-->
+<a href="http://www.adobe.com/go/getflash">
+<img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="»ñAdobe Flash Player" />
+</a>
+<!--[if !IE]>-->
+</object>
+<!--<![endif]-->
+</object>
+</div>
 
 <div>usid:<?php echo $_COOKIE['usid'] ?></div>
 <?php endif; ?>

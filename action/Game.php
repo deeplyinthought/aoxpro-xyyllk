@@ -113,7 +113,7 @@ class My_Action_Game extends My_Action_Abstract {
 			if($status[0]->status != My_Model_UserStatus::STATUS_PLAY) {
 				throw new Exception('user not play');
 			}
-			if($this->getActionTime() - $status[0]->level_time + $rt <= ConfigLoader::getInstance()->get('game', 'total_time')) {
+			if($this->getActionTime() - $status[0]->level_time + $rt - intval($this->getRequest('addTime'))*ConfigLoader::getInstance()->get('game', 'add_time')  <= ConfigLoader::getInstance()->get('game', 'total_time')) {
 				throw new Exception('rt error');
 			}
 			$score = My_Service_Game::getScore($status[0]->level, $rt);
@@ -194,10 +194,11 @@ class My_Action_Game extends My_Action_Abstract {
 	protected function _postAction() {
 		$sParams = $this->getSession('oauth2');
 		$actionBody = sprintf(
-				'ip=%s|sid=%s|msg=%s',
+				'ip=%s|sid=%s|msg=%s|uri=%s',
 				My_Service_Game::getIP(),
 				session_id(),
-				is_null($this->_exception) ? 'done' : $this->_exception->getMessage()
+				is_null($this->_exception) ? 'done' : $this->_exception->getMessage(),
+				$this->getServer('REQUEST_URI')
 				);
 		My_Model_ActionLog::logAction(
 				empty($sParams['user_id']) ? 0 : $sParams['user_id'],
@@ -208,9 +209,8 @@ class My_Action_Game extends My_Action_Abstract {
 	}
 
 	protected function _preAction() {
-		if(!$this->_verifyAuth()) {
-			$this->_verifySign();
-		}
+		$this->_verifySign();
+		$this->_verifyAuth();
 	}
 
 	private function _verifyAuth() {
