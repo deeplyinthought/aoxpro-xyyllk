@@ -1,21 +1,24 @@
 <?php
 
 class My_Service_Game {
-	public static function getScore($level, $rt) {
+	public static function getScore($level, $rt, $addTime = 0) {
 		$lvScore = array(
 				0 => 160,
 				1 => 240,
 				2 => 300,
 				3 => 480,
-				4 => 640,
+				4 => 560,
 			      );
 		$maxRt = array(
-				0 => 76,
+				0 => 78,
 				1 => 74,
 				2 => 72,
 				3 => 68,
 				4 => 64,
 			      );
+		if($addTime) {
+			$maxRt[$level] += ConfigLoader::getInstance()->get('game', 'add_time');
+		}
 		$totalTime = ConfigLoader::getInstance()->get('game', 'total_time');
 		$totalTimeScore = ConfigLoader::getInstance()->get('game', 'total_time_score');
 		if(!isset($lvScore[$level])
@@ -23,7 +26,7 @@ class My_Service_Game {
 			return 0;
 		}
 
-		return round($lvScore[$level] + $rt / $totalTime * $totalTimeScore);
+		return $lvScore[$level] + intval($rt * 30);
 	}
 
 	public static function getTitle($score) {

@@ -20,9 +20,10 @@ function authLoad(){
 <script>authLoad()</script>;
 <img src="/images/cover.jpg" />
 <?php else: ?>
+<?php $_r = time() ?>
 <div id="flashContent">
 <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="760" height="570" id="LLK" align="middle">
-<param name="movie" value="/swf/game.swf?_=<?=time() ?>" />
+<param name="movie" value="/swf/game.swf?_=<?php echo $_r ?>" />
 <param name="quality" value="high" />
 <param name="bgcolor" value="#f8c695" />
 <param name="play" value="true" />
@@ -34,8 +35,8 @@ function authLoad(){
 <param name="salign" value="" />
 <param name="allowScriptAccess" value="sameDomain" />
 <!--[if !IE]>-->
-<object type="application/x-shockwave-flash" data="/swf/game.swf?_=<?=time() ?>" width="760" height="570">
-<param name="movie" value="/swf/game.swf" />
+<object type="application/x-shockwave-flash" data="/swf/game.swf?_=<?php echo $_r ?>" width="760" height="570">
+<param name="movie" value="/swf/game.swf?_=<?php echo $_r ?>" />
 <param name="quality" value="high" />
 <param name="bgcolor" value="#f8c695" />
 <param name="play" value="true" />
@@ -55,8 +56,6 @@ function authLoad(){
 <!--<![endif]-->
 </object>
 </div>
-
-<div>usid:<?php echo $_COOKIE['usid'] ?></div>
 <?php endif; ?>
 </body>
 </html>
