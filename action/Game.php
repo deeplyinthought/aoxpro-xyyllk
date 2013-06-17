@@ -156,21 +156,6 @@ class My_Action_Game extends My_Action_Abstract {
 		if(empty($avatarId)) {
 			$avatarId = rand(1,9);
 		}
-		$followers = $this->_weiboService->followers_by_id($sParams['user_id'], 0, 200);
-		if(!empty($followers) 
-				&& !empty($followers['users'])) {
-			shuffle($followers['users']);
-		}
-		$flrAr = array();
-		for($i = 0; $i < 3; $i++) {
-			if(isset($followers['users'][$i])) {
-				$follower = $followers['users'][$i];
-				if(empty($follower['name'])) {
-					$follower['name'] = $follower['id'];
-				}
-				$flrAr[] = '@'.$follower['name'];
-			}
-		}
 		$status = My_Model_UserStatus::getByWeiboId($sParams['user_id']);
 		if(empty($status)) {
 			$content = ConfigLoader::getInstance()->get('share', 'content_error');
@@ -178,11 +163,11 @@ class My_Action_Game extends My_Action_Abstract {
 			$content = sprintf(
 					ConfigLoader::getInstance()->get('share', 'content'),
 					My_Service_Game::getTitle($status[0]->total_score),
-					My_Model_User::getScoreRank($status[0]->total_score)
+					(100 - My_Model_User::getScoreRank($status[0]->total_score)) . '%'
 					);
 		}
 		$this->_weiboService->upload(
-				$content . /*implode(' ', $flrAr) . '。' .*/ ConfigLoader::getInstance()->get('share', 'join_tips'),
+				$content . ConfigLoader::getInstance()->get('share', 'join_tips'),
 				sprintf(ConfigLoader::getInstance()->get('share', 'pic_url'), $avatarId)
 				);
 		$this->setViewParams('data', array('success' => 1));
@@ -190,21 +175,6 @@ class My_Action_Game extends My_Action_Abstract {
 
 	public function getShareAction() {
 		$sParams = $this->getSession('oauth2');
-		$followers = $this->_weiboService->followers_by_id($sParams['user_id'], 0, 200);
-		if(!empty($followers) 
-				&& !empty($followers['users'])) {
-			shuffle($followers['users']);
-		}
-		$flrAr = array();
-		for($i = 0; $i < 3; $i++) {
-			if(isset($followers['users'][$i])) {
-				$follower = $followers['users'][$i];
-				if(empty($follower['name'])) {
-					$follower['name'] = $follower['id'];
-				}
-				$flrAr[] = '@'.$follower['name'];
-			}
-		}
 		$status = My_Model_UserStatus::getByWeiboId($sParams['user_id']);
 		if(empty($status)) {
 			$content = ConfigLoader::getInstance()->get('share', 'content_error');
@@ -212,13 +182,13 @@ class My_Action_Game extends My_Action_Abstract {
 			$content = sprintf(
 					ConfigLoader::getInstance()->get('share', 'content'),
 					My_Service_Game::getTitle($status[0]->total_score),
-					My_Model_User::getScoreRank($status[0]->total_score)
+					(100 - My_Model_User::getScoreRank($status[0]->total_score)) . '%25'
 					);
 		}
 		$this->setViewParams('data', 
 				array(
 					'success' => 1,
-					'content' => $content . /*implode(' ', $flrAr) . '。' .*/ ConfigLoader::getInstance()->get('share', 'join_tips'),
+					'content' => $content . ConfigLoader::getInstance()->get('share', 'join_tips'),
 				     )
 				);
 	}
@@ -303,6 +273,25 @@ class My_Action_Game extends My_Action_Abstract {
 			$bonus = My_Model_BonusQuota::getQuota();
 		}
 		return $bonus;
+	}
+
+	private function _getFollowerRandom($userId) {
+		$followers = $this->_weiboService->followers_by_id($userId, 0, 200);
+		if(!empty($followers) 
+				&& !empty($followers['users'])) {
+			shuffle($followers['users']);
+		}
+		$flrAr = array();
+		for($i = 0; $i < 3; $i++) {
+			if(isset($followers['users'][$i])) {
+				$follower = $followers['users'][$i];
+				if(empty($follower['name'])) {
+					$follower['name'] = $follower['id'];
+				}
+				$flrAr[] = '@'.$follower['name'];
+			}
+		}
+		return $flrAr;
 	}
 
 }
