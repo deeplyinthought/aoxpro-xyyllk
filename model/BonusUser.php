@@ -26,5 +26,13 @@ class My_Model_BonusUser {
 		}
 		return $has;
 	}
+
+	public static function getBonusList() {
+		$res = My_Model_Base::getInstance()->query(
+				'SELECT u.`weibo_id`, u.`weibo_name`, bu.`bonus_time` FROM `bonus_user` bu LEFT JOIN `user` u ON (bu.`weibo_id` = u.`weibo_id`)',
+				array()
+				);
+		return empty($res) ? array() : $res->fetchAll(PDO::FETCH_CLASS);
+	}
 }
 

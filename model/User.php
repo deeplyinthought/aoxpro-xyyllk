@@ -50,5 +50,13 @@ class My_Model_User {
 		$res = $res->fetchAll(PDO::FETCH_CLASS);
 		return intval($res[0]->lower / $res[0]->total * 100);
 	}
+
+	public function getOrderList() {
+		$res = My_Model_Base::getInstance()->query(
+				'SELECT * FROM `user` ORDER BY `high_score` DESC LIMIT 100',
+				array()
+				);
+		return empty($res) ? array() : $res->fetchAll(PDO::FETCH_CLASS);
+	}
 }
 

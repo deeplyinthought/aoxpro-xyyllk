@@ -10,11 +10,11 @@ class My_Service_Game {
 				4 => 560,
 			      );
 		$maxRt = array(
-				0 => 78,
+				0 => 76,
 				1 => 74,
 				2 => 72,
-				3 => 68,
-				4 => 64,
+				3 => 67,
+				4 => 65,
 			      );
 		if($addTime) {
 			$maxRt[$level] += ConfigLoader::getInstance()->get('game', 'add_time');
@@ -22,7 +22,7 @@ class My_Service_Game {
 		$totalTime = ConfigLoader::getInstance()->get('game', 'total_time');
 		$totalTimeScore = ConfigLoader::getInstance()->get('game', 'total_time_score');
 		if(!isset($lvScore[$level])
-				|| $rt >= $maxRt[$level]) {
+				|| $rt > $maxRt[$level]) {
 			return 0;
 		}
 

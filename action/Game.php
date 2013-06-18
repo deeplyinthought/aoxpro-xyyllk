@@ -105,6 +105,8 @@ class My_Action_Game extends My_Action_Abstract {
 			if(is_null($rt) || $rt === '') {
 				$rt = 0;
 				throw new Exception('remaining time invalid');
+			} else {
+				$rt = ceil($rt);
 			}
 			$status = My_Model_UserStatus::getByWeiboId($sParams['user_id']);
 			if(empty($status) || empty($status[0])) {
@@ -113,7 +115,7 @@ class My_Action_Game extends My_Action_Abstract {
 			if($status[0]->status != My_Model_UserStatus::STATUS_PLAY) {
 				throw new Exception('user not play');
 			}
-			if($this->getActionTime() - $status[0]->level_time + $rt - intval($this->getRequest('addTime'))*ConfigLoader::getInstance()->get('game', 'add_time')  <= ConfigLoader::getInstance()->get('game', 'total_time')) {
+			if($this->getActionTime() - $status[0]->level_time + $rt - intval($this->getRequest('addTime'))*ConfigLoader::getInstance()->get('game', 'add_time')  < ConfigLoader::getInstance()->get('game', 'total_time')) {
 				throw new Exception('rt error');
 			}
 			$score = My_Service_Game::getScore($status[0]->level, $rt, $this->getRequest('addTime'));
@@ -204,6 +206,15 @@ class My_Action_Game extends My_Action_Abstract {
 	public function authAction() {}
 
 	public function unauthAction() {}
+
+	public function statAction() {
+		$this->setViewParams('data', 
+				array(
+					'bonus' => My_Model_BonusUser::getBonusList(),
+					'rank' => My_Model_User::getOrderList(),
+				     )
+				);
+	}
 
 	protected function _postAction() {
 		$sParams = $this->getSession('oauth2');
