@@ -156,18 +156,24 @@ class My_Action_Game extends My_Action_Abstract {
 		if(empty($avatarId)) {
 			$avatarId = rand(1,9);
 		}
-		$status = My_Model_UserStatus::getByWeiboId($sParams['user_id']);
-		if(empty($status)) {
-			$content = ConfigLoader::getInstance()->get('share', 'content_error');
+		$content = $this->getRequest('content');
+		if(!is_null($content)) {
+			$content = urldecode($content);	
 		} else {
-			$content = sprintf(
-					ConfigLoader::getInstance()->get('share', 'content'),
-					My_Service_Game::getTitle($status[0]->total_score),
-					(100 - My_Model_User::getScoreRank($status[0]->total_score)) . '%'
-					);
+			$status = My_Model_UserStatus::getByWeiboId($sParams['user_id']);
+			if(empty($status)) {
+				$content = ConfigLoader::getInstance()->get('share', 'content_error');
+			} else {
+				$content = sprintf(
+						ConfigLoader::getInstance()->get('share', 'content'),
+						My_Service_Game::getTitle($status[0]->total_score),
+						(100 - My_Model_User::getScoreRank($status[0]->total_score)) . '%'
+						);
+			}
+			$content . ConfigLoader::getInstance()->get('share', 'join_tips');
 		}
 		$this->_weiboService->upload(
-				$content . ConfigLoader::getInstance()->get('share', 'join_tips'),
+				$content,
 				sprintf(ConfigLoader::getInstance()->get('share', 'pic_url'), $avatarId)
 				);
 		$this->setViewParams('data', array('success' => 1));

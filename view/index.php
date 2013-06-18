@@ -20,7 +20,7 @@ function authLoad(){
 <script>authLoad()</script>;
 <img src="/images/cover.jpg" />
 <?php else: ?>
-<?php $_r = '201306172215'; ?>
+<?php $_r = '201306181142'; ?>
 <div id="flashContent">
 <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="760" height="570" id="LLK" align="middle">
 <param name="movie" value="/swf/game.swf?_=<?php echo $_r ?>" />
